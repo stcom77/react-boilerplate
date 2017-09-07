@@ -1,0 +1,35 @@
+{
+  "ignore": "node-modules/**",
+  "plugins": [
+    [
+      "react-html-attrs",
+      "react-hot-loader/babel",
+      "transform-runtime"
+    ]
+  ],
+  "presets": [
+    [
+      "es2015",
+      {
+        "modules": false
+      }
+    ],
+    "react",
+    "stage-0"
+  ],
+  "retainLines": true,
+  "env": {
+    "production": {
+      "plugins": [
+        "transform-react-remove-prop-types",
+        "transform-react-inline-elements"
+      ]
+    },
+    "test": {
+      "plugins": [
+        "transform-es2015-modules-commonjs",
+        "dynamic-import-node"
+      ]
+    }
+  }
+}
