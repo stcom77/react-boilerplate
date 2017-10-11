@@ -1,12 +1,181 @@
-$blue = #72d0eb
-// Add pink and its invert
-$pink = #ffb3b3
-$pink-invert = #fff
-// Add a serif family
-$family-serif = "Merriweather", "Georgia", serif
-$column-gap=3rem
-@import '../../../node_modules/bulma-stylus/bulma.styl'
+$link = #7a7a7a
+$link-visited = #7a7a7a
+$column-gap=10px
+$header_height=40px
+@import './media_query'
+@import '../../../node_modules/bulma-stylus/bulma'
+@import 'font'
+@import './footer'
+@import './artist_page'
+@import './gallery'
+@import './contacts'
+@import './spinner'
+@import './lightbox'
+@import './header'
+@import './gallery-page'
 
-.fff
-  display block
-  background-color red
+body
+  font-size: 15px
+  @media $media_mobile
+    font-size 12px
+.container
+  @media $media_mobile
+    max-width 100vw
+    margin 0
+.main-page
+  .star
+    svg
+      @media $media_mobile
+        width: 50px
+  &__lang
+    span
+      @media $media_mobile
+        width: 70px
+  .hero-header
+    @media $media_mobile
+      margin-top 5px
+  .hero-body
+    @media $media_mobile
+      padding: 1rem 0.5rem;
+  .hero-foot
+    .arrow-down
+      svg
+        @media $media_mobile
+          width: 40px
+  .last-works
+    padding-top: 0
+  .art-title
+    margin-top: 1.5rem
+    margin-bottom 0.5rem
+  .gallery-title
+  .columns.gallery
+    .column:nth-child(1)
+      padding-right 30px
+    .column:nth-child(2)
+      padding-left 30px
+  .arrow-down
+    margin-bottom 15px
+    cursor: pointer
+  &__body
+    .level
+      margin-bottom 4rem
+      @media $media_mobile
+        margin-bottom 2.5rem
+    .nav-item
+      font-size: 20px
+      cursor: pointer
+      justify-content: center
+      @media $media_mobile
+        font-size 15px;
+        padding 3px 6px
+  .gallery-block
+    margin-top 40px
+    padding-bottom 1.5rem
+    .title
+      font-size: 2rem
+    .subtitle
+      font-size 1rem
+    .le_slider
+      width: 100% !important
+      @media $media_mobile
+        height: 160px !important;
+  .last-works__title
+    .title
+      margin 20px 0
+      border-top: grey solid 1px
+      border-bottom: grey solid 1px
+      padding: 5px 0
+      width: 200px;
+      text-align: center;
+  .last-works__body
+    .tile.is-parent:first-of-type
+      padding-left: 0.75rem
+    .tile.is-parent:last-of-type
+      padding-right: 0.75rem
+    .tile.is-child:not(:last-child)
+      margin-right 24px !important
+.main-title
+  font-size: 3rem
+  font-family "Open Sans"
+  font-weight: 300
+  @media $media_mobile
+    font-size: 2rem
+.star-image
+  stroke-dasharray: 1000
+  stroke-dashoffset: 1000
+  animation: dash 15s linear forwards;
+.link_with_description
+  position: relative
+  .overlay
+    display: flex
+    flex-direction column
+    align-items: center;
+    justify-content: center;
+    height 100%
+    width 100%
+    position absolute
+    top: 0
+    left: 0
+    will-change opacity
+    transition opacity 1s ease-out
+    background-color: white;
+    opacity: 0;
+    text-align center
+    &:hover
+      opacity: 0.7;
+    .title
+      font-size 2rem
+    p
+      margin-bottom 1rem
+    span
+      font-size: 50px;
+      color: black;
+.touchevents
+  .gallery-block, .last-works
+    .link_with_description
+      .overlay
+        position absolute
+        opacity 1;
+        background-color: transparent
+        margin-top: 10px;
+        flex-wrap: wrap
+        .title
+          font-size 1rem
+        & > *
+          color: white
+          margin-right 5px
+          flex-shrink 0
+          &:before
+            content: '  '
+        &:hover
+          opacity: 0;
+  .gallery-page
+    .link_with_description
+      .overlay
+        opacity 1;
+        background-color: transparent
+        flex-direction: row;
+        position static
+        margin-top: 10px;
+        flex-wrap: wrap
+        .title
+          font-size 1rem
+        & > *
+          color: black
+          margin-right 5px
+          flex-shrink 0
+          &:before
+            content: '  '
+        &:hover
+          opacity: 0;
+  .last-works__body
+    .link_with_description
+      .overlay
+        & > *
+          text-shadow: none
+@keyframes dash {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+

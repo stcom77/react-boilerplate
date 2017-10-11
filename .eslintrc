@@ -3,7 +3,8 @@
   "plugins": [
     "react",
     "lodash",
-    "you-dont-need-lodash-underscore"
+    "you-dont-need-lodash-underscore",
+    "prettier"
   ],
   "extends": "plugin:react/recommended",
   "env": {
@@ -32,7 +33,8 @@
     "prefer-const": 2,
     "react/sort-prop-types": 2,
     "no-debugger": 2,
-    "react/no-unknown-property": [2, {"ignore": ["class", "for"]}]
+    "react/no-unknown-property": [2, {"ignore": ["class", "for"]}],
+    "no-unused-vars": ["error", { "vars": "local", "args": "after-used", "ignoreRestSiblings": false }]
   },
   "parserOptions": {
     "sourceType": "module",

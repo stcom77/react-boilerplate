@@ -1,10 +1,10 @@
 {
-  "ignore": "node-modules/**",
   "plugins": [
     [
       "react-html-attrs",
       "react-hot-loader/babel",
-      "transform-runtime"
+      "transform-runtime",
+      "transform-es2015-block-scoping"
     ]
   ],
   "presets": [

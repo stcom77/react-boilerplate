@@ -4,7 +4,7 @@ const outPath = path.resolve(__dirname, './dist');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 
 const env = process.env.NODE_ENV;
 const isDevelop = env === 'development';
@@ -18,7 +18,8 @@ const extractCSS = new ExtractTextPlugin({
 
 const config = {
   entry: {
-    app: ['react-hot-loader/patch', path.resolve(__dirname, './src/index.js')],
+    app: ['babel-polyfill', './src/utils/modernizr.js', 'react-hot-loader/patch', path.resolve(__dirname, './src/index.js')],
+    // app: ['babel-polyfill', path.resolve(__dirname, './src/index.js')],
     vendor: [
       'react',
       'react-dom'
@@ -26,25 +27,30 @@ const config = {
   },
   output: {
     path: outPath,
-    filename: '[name].js'
+    filename: '[name].[hash].js'
   },
   devtool: isDevelop ? 'source-map' : 'nosources-source-map',
   module: {
     rules: [
-      {
-        test: /\.(js|jsx)$/,
-        enforce: 'pre',
-        exclude: /node_modules/,
-        loader: 'eslint-loader'
-      },
+      // {
+      //   test: /\.(js|jsx)$/,
+      //   enforce: 'pre',
+      //   exclude: /node_modules/,
+      //   loader: 'eslint-loader'
+      // },
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         loader: 'babel-loader'
       },
       {
+        test: /\.(js|jsx)$/,
+        include: /webpack-dev-server/,
+        loader: 'babel-loader'
+      },
+      {
         test: /\.styl$/,
-        include: path.resolve(__dirname, './src/assets/stylus'),
+        include: path.resolve(__dirname, './src'),
         use: extractCSS.extract({
           fallback: 'style-loader',
           use: [
@@ -78,20 +84,55 @@ const config = {
         }),
       },
       {
-        test: /\.(bmp|gif|jpe?g|png|svg)$/,
-        include: path.resolve(__dirname, './src/assets/images/'),
-        loader: 'url-loader',
+        test: /\.css$/,
+        use: extractCSS.extract({
+          fallback: 'style-loader',
+          use: [
+            {
+              loader: 'css-loader',
+              options: {
+                sourceMap: isDevelop,
+                localIdentName: isDevelop
+                  ? '[name]-[local]-[hash:base64:5]'
+                  : '[hash:base64:5]',
+                minimize: !isDevelop,
+                discardComments: { removeAll: true },
+              },
+            },
+          ],
+        }),
+      },
+      {
+        test: /\.svg$/,
+        loader: 'raw-loader'
+      },
+      {
+        test: /\.(bmp|gif|jpe?g|png)$/,
+        include: path.resolve(__dirname, './src/assets/images'),
+        loader: 'file-loader',
         options: {
-          limit: 10000,
-          name: 'assets/images/[name].[ext]'
+          name: 'assets/images/[path][name].[ext]'
         }
+      },
+      {
+        test: /\.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
+        include: [path.resolve(__dirname, './src/assets/fonts/'), /node_modules/],
+        loader: 'file-loader?name=assets/fonts/[name].[ext]'
+      },
+      {
+        test: /manifest\.json$/,
+        exclude: /node_modules/,
+        loader: 'file-loader?name=[name].[ext]'
       }
     ]
   },
   plugins: [
     new webpack.NoEmitOnErrorsPlugin(),
-    new webpack.NamedModulesPlugin(),
     extractCSS,
+    new FaviconsWebpackPlugin({
+      logo: './src/assets/images/favicon.png',
+      prefix: 'assets/images/icons/'
+    }),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, './src/index.ejs'),
       filename: 'index.html',

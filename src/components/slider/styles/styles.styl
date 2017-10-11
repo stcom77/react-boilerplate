@@ -1,0 +1,288 @@
+.le_slider.loaded
+  .le_slider__wrapper
+    display block
+  .loader
+    display none
+.le_slider
+  overflow hidden
+  margin: 0 auto;
+  box-sizing border-box
+  &__wrapper
+    position relative
+    height: 100%;
+    width: 100%;
+    display: none
+    &:hover
+      .le_slider__button
+        opacity 0.6
+    a
+      color: currentColor
+      &:hover
+        color: currentColor
+  &__button
+    position: absolute
+    top: 50%
+    transform translateY(-50%)
+    z-index 9999
+    border: none
+    display: block;
+    width: 60px;
+    height: 60px;
+    //text-indent: -9999px;
+    background-repeat: no-repeat;
+    background-color: rgba(255,255,255,0.2);
+    border-radius: 50px;
+    cursor: pointer;
+    transition: 0.3s ease-out;
+    opacity 0
+    &:focus
+      outline none
+    &:hover
+      opacity 1 !important
+    &--left
+      left: 20px
+    &--right
+      right: 20px
+  .arrow_button
+    color: white
+    svg
+      width: 23px
+
+.le_slide
+  height 100%
+  width 100%
+  display: block;
+  &__elements
+    position absolute
+    top: 0
+    left 0
+  img
+    max-width 100%
+    width: 100%
+    object-fit: contain;
+  .layer
+    width: 100%
+    height 100%
+
+.leSlideTitle
+    position: absolute
+    animation 4s linear 0s moveRightIn
+    animation-fill-mode forwards
+.bullets
+  display inline-block
+  white-space: nowrap;
+  box-sizing border-box
+  position: absolute
+  left: 50%
+  bottom: 30px
+  z-index: 9999
+  transform translateX(-50%)
+  .bullet
+    display: inline-block
+    width: 15px
+    height: 15px
+    background: transparent;
+    text-indent: 9999px;
+    margin: 0 5px;
+    border: 3px solid rgba(0,0,0,0.5);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s ease-out;
+    position: relative;
+    &:hover
+      background: #fff;
+      .bullet__thumb
+        display: block
+    &__thumb
+      width: 80px
+      height 80px
+      background-position center center
+      background-size cover
+      display none
+      position: absolute;
+      top: -90px;
+      left: -40px;
+.thumb__wrapper
+  display inline-block
+  white-space: nowrap;
+  box-sizing border-box
+  position: absolute
+  left: 50%
+  top: 270px
+  z-index: 9999
+  transform translateX(-50%)
+.thumb__item
+  width: 50px
+  height 50px
+  display inline-block
+  will-change: transform
+  &:hover
+    transform: scale3d(1.201, 1.201, 1.201)
+    transition transform 0.4s ease-out
+  &:not(last-of-type)
+    margin-right 5px
+.rev_slider_wrapper
+  margin 0 auto
+  overflow hidden
+  position relative
+  .thumbnails
+    position absolute
+    bottom 0
+    left 50%
+    transform translateX(-50%)
+    .thumb
+      display inline-block
+      img
+        width 70px
+  .animated
+    margin 0
+.fadeOut
+  animation 4s linear 0s fadeOut
+
+.fadeIn
+  animation 4s linear 0s fadeIn
+
+.moveRightIn
+  animation 4s linear 0s moveRightIn
+
+.moveLeftOut
+  animation 4s linear 0s moveLeftOut
+
+@keyframes move_eye {
+  0% {
+    margin-left: -20%;
+  }
+  100% {
+    margin-left: 100%;
+  }
+}
+
+@keyframes fadeIn {
+  0% {opacity: 0;}
+  100% {opacity: 1;}
+}
+
+@keyframes fadeOut {
+  0% {opacity: 1;}
+  100% {opacity: 0;}
+}
+
+@keyframes moveRightIn {
+  0% {margin-left: 400px;}
+  100% {margin-left: 0}
+}
+
+@keyframes moveLeftOut {
+  0% {margin-left: 0;}
+  100% {margin-left: -400px;}
+}
+
+.animated {
+  animation-duration: 1s;
+  animation-fill-mode: both;
+}
+
+@keyframes bounceInRight {
+  from, 60%, 75%, 90%, to {
+    animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+}
+
+  from {
+    opacity: 0;
+    transform: translate3d(3000px, 0, 0);
+  }
+
+  to {
+      transform: none;
+  }
+}
+
+.bounceInRight {
+  animation-name: bounceInRight;
+}
+
+@keyframes bounceOutLeft {
+  20% {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+  }
+
+  to {
+      opacity: 0;
+      transform: translate3d(-2000px, 0, 0);
+  }
+}
+
+.bounceOutLeft {
+  animation-name: bounceOutLeft;
+}
+
+@keyframes bounceOutUp {
+  20% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translate3d(0, -2000px, 0);
+  }
+}
+
+.bounceOutUp {
+  animation-name: bounceOutUp;
+}
+
+@keyframes bounceInUp {
+  from, 60%, 75%, 90%, to {
+      animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+  }
+
+  from {
+      opacity: 0;
+      transform: translate3d(0, 3000px, 0);
+  }
+
+  to {
+      transform: translate3d(0, 0, 0);
+  }
+}
+
+.bounceInUp {
+  animation-name: bounceInUp;
+}
+
+@keyframes slideOutLeft {
+  from {
+      transform: translate3d(0, 0, 0);
+  }
+
+  to {
+      transform: translate3d(-100%, 0, 0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+      transform: translate3d(100%, 0, 0);
+  }
+
+  to {
+      transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes zoomOut {
+  from {
+      opacity: 1;
+  }
+
+  50% {
+      opacity: 0;
+      transform: scale3d(.3, .3, .3);
+  }
+
+  to {
+      opacity: 0;
+  }
+}

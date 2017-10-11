@@ -1,0 +1,63 @@
+.modal_lighbox
+  position: absolute
+  top: 50%
+  left: 50%
+  right: auto
+  bottom: auto
+  margin-right: -50%
+  transform: translate(-50%, -50%)
+  overflow: hidden
+  WebkitOverflowScrolling: touch
+  border-radius: 4px
+  outline: none
+  transition: width 0.7s ease, height 0.7s ease
+  padding 20px
+  @media $media_mobile
+    padding: 0
+  &__image
+    background-color #fff
+    padding 10px
+    position: relative
+  &__nav
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 10;
+    .prev
+      width: 35%
+      height 100%
+      left: 0;
+      float: left
+      background: url(../images/prev.png) left 48% no-repeat;
+      opacity 0
+      transition opacity 0.3s
+      &:hover
+        opacity 1
+    .next
+      width: 35%
+      right: 0
+      height 100%
+      float: right
+      background: url(../images/next.png) right 48% no-repeat;
+      opacity 0
+      transition opacity 0.3s
+      &:hover
+        opacity 1
+  &__close_button
+    position: absolute;
+    right: 0;
+    top: 0;
+  &__description
+    margin-top 10px
+    position: relative
+    height: 50px
+    overflow: hidden;
+    font-size 1.2rem
+    @media $media_mobile
+      font-size 1rem
+.touchevents
+  .modal_lighbox
+    .prev, .next
+      opacity 1

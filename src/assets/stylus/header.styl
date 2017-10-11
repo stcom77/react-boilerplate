@@ -1,0 +1,24 @@
+.header
+  padding-bottom: 5px;
+  border-bottom: 1px solid black;
+  height $header_height
+  .level
+    height $header_height
+    padding-left: 10px;
+    padding-right: 10px;
+  &--fixed
+    position: fixed
+    top: 0
+    left: 0
+    width: 100%;
+    background-color: white
+    z-index: 99999
+    border-bottom: none
+    will-change display
+    transition display 0.5s ease-in
+  &--visible
+    display: block
+  &--hidden
+    display: none
+  &__divider
+    margin: 0 5px;

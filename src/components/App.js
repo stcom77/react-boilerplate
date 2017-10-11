@@ -1,18 +1,25 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import TestComp from 'components/TestComp';
-import TestComp2 from 'components/TestComp2';
+import MainPage from '../pages/MainPage';
+import ArtistPage from '../pages/ArtistPage';
+import ContactPage from '../pages/ContactPage';
+import GalleryPage from '../pages/GalleryPage';
+import GalleryPageArt from '../pages/GalleryPageArt';
 
 class App extends Component {
   render() {
     return (
       <Router>
         <Switch>
-          <Route exact path="/" component={TestComp} />
-          <Route path="/test" render={() => <TestComp2 />} />
+          <Route path="/artist" component={ArtistPage} />
+          <Route path="/contact" component={ContactPage} />
+          <Route path="/portrait" component={GalleryPage} />
+          <Route path="/art" component={GalleryPageArt} />
+          <Route exact path="/" component={MainPage} />
+          <Redirect to="/art"/>
         </Switch>
       </Router>
     );

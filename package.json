@@ -7,7 +7,7 @@
     "clear": "rm -rf dist && mkdir dist",
     "build:develop": "cross-env NODE_ENV=development webpack",
     "build:production": "cross-env NODE_ENV=production webpack",
-    "start:dev": "cross-env NODE_ENV=development webpack-dev-server --progress --colors",
+    "start:dev": "cross-env NODE_ENV=development webpack-dev-server",
     "test": "DEV=1 NODE_ENV=test BABEL_ENV=test NODE_PATH=./src mocha test",
     "test:watch": "DEV=1 NODE_ENV=test BABEL_ENV=test NODE_PATH=./src mocha test --watch"
   },
@@ -49,6 +49,7 @@
     "eslint": "^4.6.1",
     "eslint-loader": "^1.9.0",
     "eslint-plugin-lodash": "^2.4.5",
+    "eslint-plugin-prettier": "^2.3.1",
     "eslint-plugin-react": "^7.3.0",
     "eslint-plugin-you-dont-need-lodash-underscore": "^6.3.1",
     "extract-text-webpack-plugin": "^3.0.0",
@@ -60,6 +61,7 @@
     "postcss-calc": "^6.0.0",
     "postcss-flexbugs-fixes": "^3.2.0",
     "postcss-loader": "^2.0.6",
+    "prettier": "^1.7.4",
     "react-addons-test-utils": "^15.6.0",
     "react-hot-loader": "next",
     "react-test-renderer": "^15.6.1",
@@ -74,14 +76,21 @@
     "why-did-you-update": "^0.0.8"
   },
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
     "bulma-stylus": "https://github.com/stcom77/bulma-stylus",
     "faker": "^4.1.0",
+    "font-awesome": "^4.7.0",
+    "gsap": "^1.20.3",
+    "jump.js": "^1.0.2",
     "prop-types": "^15.5.10",
+    "raw-loader": "^0.5.1",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
+    "react-modal": "^2.3.2",
     "react-redux": "^5.0.6",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
+    "react-svg-inline": "^2.0.0",
     "redux": "^3.7.2",
     "whatwg-fetch": "^2.0.3"
   }

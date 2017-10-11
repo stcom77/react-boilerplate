@@ -7,7 +7,8 @@ import { Provider } from 'react-redux';
 import store from './reducers';
 
 import 'assets/stylus/main.styl';
-
+import '../node_modules/font-awesome/css/font-awesome.css';
+import 'manifest.json';
 
 if (process.env.NODE_ENV !== 'production') {
   // eslint-disable-next-line no-unused-vars,react/no-deprecated
@@ -18,13 +19,13 @@ if (process.env.NODE_ENV !== 'production') {
     },
   });
   // eslint-disable-next-line global-require
-  const { whyDidYouUpdate } = require('why-did-you-update');
-  whyDidYouUpdate(React);
+  // const { whyDidYouUpdate } = require('why-did-you-update');
+  // whyDidYouUpdate(React);
 }
 const renderHot = Component => {
   render(
     <AppContainer>
-      <AppComponent />
+      <Component />
     </AppContainer>,
     document.getElementById('app')
   );

@@ -1,0 +1,22 @@
+.footer
+  background-color unset
+  padding: 1.5rem;
+  @media $media_mobile
+    padding: 1rem 5px
+  .social-icons
+    i
+      vertical-align: middle;
+    i:not(last-child)
+      margin-right 10px
+  nav
+    > *
+      vertical-align: middle;
+    a
+      color black
+  &__divider
+    margin: 0 5px
+  .level-left + .level-right
+    margin-top: 0.7rem
+  .level-right
+    @media $media_mobile
+      justify-content: flex-start

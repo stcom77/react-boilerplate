@@ -1,0 +1,8 @@
+<svg width="29px" height="29px" viewBox="0 0 29 29" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="Page-1" stroke="none" stroke-width="1" fill="rgba(255,255,255, 0.4)" fill-rule="evenodd">
+        <g id="closeIcon" transform="translate(14.635790, 14.207381) rotate(45.000000) translate(-14.635790, -14.207381) ">
+            <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-1"></use>
+            <path stroke="#4A4A4A" stroke-width="1" d="M16.8657904,-2.66735733 L12.4057903,-2.66735733 L12.4057903,11.9773811 L-2.23894815,11.9773811 L-2.23894815,16.4373812 L12.4057903,16.4373812 L12.4057903,31.0821197 L16.8657904,31.0821197 L16.8657904,16.4373812 L31.5105288,16.4373812 L31.5105288,11.9773811 L16.8657904,11.9773811 L16.8657904,-2.66735733 Z"></path>
+        </g>
+    </g>
+</svg>
