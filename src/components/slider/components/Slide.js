@@ -58,7 +58,7 @@ class Slide extends PureComponent {
     }
     return (
       <a
-        className="le_slide"
+        className="le_slide slide"
         data-src={img}
         style={{ ...style, backgroundImage: `url(${slideImage})`, backgroundPosition: 'center center', backgroundSize: 'cover' }}
         onLoad={onImageLoadCallback}

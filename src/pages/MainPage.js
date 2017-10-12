@@ -118,7 +118,7 @@ class MainPage extends PureComponent {
                 thumbnails
                 thumbnailsSize="100px"
                 spinner="dots"
-                width={1300}
+                width={1344}
                 height={600}
                 auto={5}
               >

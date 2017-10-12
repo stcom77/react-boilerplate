@@ -13,7 +13,9 @@ import debounce from 'lodash/debounce';
 import { compareState } from '../utils/other';
 import Loader from './LoaderComponent';
 import Paginator from './Paginator';
-import { TweenMax, Bounce, TweenLite, TimelineMax } from "gsap";
+import { TweenMax, Bounce, TweenLite, TimelineMax, TimelineLite } from 'gsap';
+//todo-stas: для каждого слайда сделать возможность указания длительности и начала анимации
+//todo-stas: для слайдов с авто сменой рендерить stagger для ручный без задержки
 
 import styles from '../styles/styles.styl';
 
@@ -35,6 +37,8 @@ class Slider extends PureComponent {
     buttons: PropTypes.bool,
     children: PropTypes.node,
     className: PropTypes.string,
+    direction: PropTypes.number,
+    firstSlide: PropTypes.number,
     height: PropTypes.number,
     lazy: PropTypes.bool,
     nextButton: PropTypes.bool,
@@ -47,7 +51,11 @@ class Slider extends PureComponent {
     width: PropTypes.number,
   };
 
-  static defaultProps = {};
+  static defaultProps = {
+    direction: MOVE_NEXT,
+    firstSlide: 0,
+    lazy: false
+  };
 
   constructor(props) {
     super(props);
@@ -62,18 +70,14 @@ class Slider extends PureComponent {
     this.state = {
       slides,
       activeSlide: 0,
-      prevSlide: 0,
-      doSlideChange: false,
-      direction: 1,
-      nextSlide: null,
+      isNextSlide: slides.length > 1,
+      isPrevSlide: false,
       lazy: props.lazy,
     };
   }
 
   componentDidMount() {
-    if (this.props.auto) {
-      this.scheduleNextAnimationCycle();
-    }
+    this.adjustSize();
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -83,6 +87,16 @@ class Slider extends PureComponent {
 
   makeAnimation = false;
   countLoadedImages = 0;
+
+  adjustSize = () => {
+    const { width, height } = this.props;
+    if (width) {
+      this.leSlider.style.width = `${width}px`;
+    }
+    if (height) {
+      this.leSlider.style.height = `${height}px`;
+    }
+  }
 
   processSlide = (slide) => {
     const { img, img2x = img, thumb = img } = slide.props;
@@ -94,16 +108,23 @@ class Slider extends PureComponent {
     return changes.length === 1 && changes.includes('imagesLoaded');
   }
 
-  isItAnimationCycleEnd(nextState) {
-    return (this.state.doSlideChange === true && nextState.doSlideChange === false) && (this.state.activeSlide !== nextState.activeSlide);
-  }
-
   moveNextSlide = debounce(() => {
-    this.setState({ doSlideChange: true, direction: MOVE_NEXT });
+    const { slides, activeSlide: currentSlide } = this.state;
+    if (this.slider && this.currentSlide < slides.length - 1) {
+      const activeSlide = this.getNextSlideIndex(slides, currentSlide);
+      this.slider.play(`slide${activeSlide}start`);
+      this.setState({ activeSlide });
+    }
   }, 500);
 
   movePrevSlide = debounce(() => {
-    this.setState({ doSlideChange: true, direction: MOVE_PREV });
+    const { slides, activeSlide: currentSlide } = this.state;
+    if (this.slider && currentSlide > 0) {
+      const activeSlide = this.getPrevSlideIndex(slides, currentSlide);
+      // this.slider.reverse(`slide${activeSlide}start`);
+      this.slider.reverse();
+      this.setState({ activeSlide });
+    }
   }, 500);
 
   divRef = (el) => (this.mainDiv = el);
@@ -205,24 +226,75 @@ class Slider extends PureComponent {
     }
   };
 
-  makeAnimationGsap = (paused = false) => {
-    let slides = document.getElementsByClassName('le_slide');
-    const animDuration = this.props.auto;
-    const parent = new TimelineMax({ repeat: -1, delay: 2, paused: true });
-    for (let i = 0; i < slides.length; i++) {
+  makeFadeAnimation = (slides, animDuration, fadeDuration) => {
+    const makeAnimation = (slides, slideIndex) => {
       const tl = new TimelineMax();
-      let j = (i == slides.length - 1 ? 0 : i + 1);
-      tl.to(slides[i], 3, { opacity: 0}, 3 * i);
-      tl.to(slides[j], 3, { opacity: 1}, 3 * i);
-      parent.add(tl);
+      const nextSlideIndex = this.getNextSlideIndex(slides, slideIndex);
+      tl.to(slides[slideIndex], fadeDuration, { autoAlpha: 0 }, 0);
+      tl.to(slides[nextSlideIndex], fadeDuration, { autoAlpha: 1 }, 0);
+      return tl;
+    };
+    [...slides].forEach((slide, index) => slide.style.opacity = index == 0 ? 1 : 0);
+    const parent = new TimelineMax({ repeat: -1, delay: animDuration, repeatDelay: animDuration, paused: true });
+    for (let i = 0; i < slides.length; i++) {
+      parent.addLabel('slide' + i + 'start', animDuration * i);
+      parent.add(makeAnimation(slides, i), animDuration * i);
+      parent.addLabel('slide' + i + 'end');
+      parent.addPause('slide' + i + 'end');
     }
-    parent.set([...slides], { opacity: 0, visibility: 'visible' });
-    parent.play();
-    // setTimeout(() => parent.pause(), 1000);
+    this.slider = parent;
+    this.currentSlide = 0;
   }
 
-  getNextSlideIndex = (slides, index) => index === slides.length - 1 ? 0 : index + 1;
-  getPrevSlideIndex = (slides, index) => index === 0 ? slides.length - 1 : index - 1;
+  setCurrentSlide = (index) => this.setState({ activeSlide: index });
+
+  setButtonState = () => {
+
+  }
+
+  completeSlideChange = (index) => {
+    const { slides } = this.state;
+    console.log(index);
+    switch (true) {
+    case index == slides.length - 1:
+      this.setState({ isNextSlide: false, isPrevSlide: true });
+      break;
+    case index == 0:
+      this.setState({ isPrevSlide: false, isNextSlide: true });
+      break;
+    default:
+      this.setState({
+        isPrevSlide: true,
+        isNextSlide: true
+      });
+    }
+    this.setCurrentSlide(index);
+  };
+
+  makeSlideAnimation = (slides, animDuration, fadeDuration, paused) => {
+    const cw = slides[0].clientWidth;
+    [...slides].forEach((slide, index) => slide.style.left = index == 0 ? 0 : `${cw}px`);
+    const parent = new TimelineMax({ repeat: -1, delay: animDuration, repeatDelay: animDuration, paused, onComplete: () => console.log('complete') });
+    for (let i = 0; i < slides.length; i++) {
+      parent.addLabel('slide' + i + 'start');
+      parent.to(slides[i], fadeDuration, { left: 0, onComplete: () => this.completeSlideChange(i), onReverseComplete: () => this.completeSlideChange(this.getPrevSlideIndex(slides, i)) });
+      parent.addLabel('slide' + i + 'end');
+      parent.addPause('slide' + i + 'end');
+    }
+    this.slider = parent;
+    window.mySlider = parent;
+    this.currentSlide = 0;
+  }
+
+  makeAnimationGsap = (paused = true) => {
+    const slides = document.getElementsByClassName('le_slide');
+    const animDuration = 5;
+    const fadeDuration = 2;
+    this.makeSlideAnimation(slides, animDuration, fadeDuration, paused);
+  }
+
+  getNextSlideIndex = (slides, index) => index === slides.length - 1 ? index : index + 1;
+  getPrevSlideIndex = (slides, index) => index === 0 ? 0 : index - 1;
   isSlideNextActive = (slides, slide) => (slide.index === this.getNextSlideIndex(slides));
   isSlideActive = (slide) => slide.props.index === this.state.activeSlide;
 
@@ -233,12 +305,12 @@ class Slider extends PureComponent {
     }
 
     switch (direction) {
-      case MOVE_NEXT:
-        return this.getNextSlideIndex(slides, activeSlide);
-        break;
-      case MOVE_PREV:
-        return this.getPrevSlideIndex(slides, activeSlide);
-        break;
+    case MOVE_NEXT:
+      return this.getNextSlideIndex(slides, activeSlide);
+      break;
+    case MOVE_PREV:
+      return this.getPrevSlideIndex(slides, activeSlide);
+      break;
     }
     return false;
   }
@@ -280,7 +352,7 @@ class Slider extends PureComponent {
     if (lazy && this.getSlideIndex(slide) !== showOnlySlide) {
       return null;
     }
-    let style = {
+    const style = {
       // visibility: this.isSlideActive(slide) ? 'visible' : 'hidden',
     };
 
@@ -293,10 +365,11 @@ class Slider extends PureComponent {
       // zIndex: 999,
       // zIndex: this.isSlideActive(slide) ? Styler.getSlideZIndex(true) : slide.props.index,
       ...style,
-      opacity: this.isSlideActive(slide) ? 1 : 0,
-      position: this.isSlideActive(slide) ? 'relative' : 'absolute',
-      top: 0,
-      left: 0,
+      // opacity: this.isSlideActive(slide) ? 1 : 0,
+      // position: this.isSlideActive(slide) ? 'relative' : 'absolute',
+      // position: 'absolute',
+      // top: 0,
+      // left: 0,
     });
 
     slide = this.applyProps(slide, {
@@ -331,8 +404,12 @@ class Slider extends PureComponent {
     this.setState({ doSlideChange: true, nextSlide: activateSlide });
   }
 
+  sliderRef = (el) => {
+    this.leSlider = el;
+  }
+
   render() {
-    const { slides } = this.state;
+    const { slides, isNextSlide, isPrevSlide } = this.state;
     const { prevButton, nextButton, buttons, auto, height, width, thumbnailsSize, spinner, className, bullets, showThumbnails } = this.props;
     const { lazy, allImagesLoaded, activeSlide } = this.state;
 
@@ -343,14 +420,18 @@ class Slider extends PureComponent {
       renderedSlides = this.renderSlides();
     }
     return (
-      <div className={`le_slider ${allImagesLoaded ? 'loaded' : ''} ${className ? className : ''}`} style={{ width: `${width}px`, height: `${height}px` }} onWheel={this.onWheel} onLoad={this.onLoad}>
+      <div className={`le_slider ${allImagesLoaded ? 'loaded' : ''} ${className ? className : ''}`} ref={this.sliderRef} onWheel={this.onWheel} onLoad={this.onLoad}>
         {spinner &&
         <Loader type={spinner} />
         }
         <div ref={this.divRef} className={'le_slider__wrapper'} onAnimationEnd={this.endAnimationCycle}>
           {renderedSlides}
+          {isPrevSlide &&
           <LeftSliderButton button={prevButton} show={buttons} onClick={this.movePrevSlide} />
+          }
+          {isNextSlide &&
           <RightSliderButton button={nextButton} show={buttons} onClick={this.moveNextSlide} />
+          }
           {showThumbnails &&
           <ThumbnailContainer slides={slides} thumbSize={thumbnailsSize} activeSlide={activeSlide} doSlideChange={this.doSliceChange} />
           }
