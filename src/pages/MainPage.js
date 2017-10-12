@@ -114,7 +114,7 @@ class MainPage extends PureComponent {
                 className="is-2by1"
                 buttons
                 transition="carousel"
-                speed="1"
+                speed={2}
                 thumbnails
                 thumbnailsSize="100px"
                 spinner="dots"
