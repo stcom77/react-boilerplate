@@ -111,18 +111,24 @@ const config = {
         include: path.resolve(__dirname, './src/assets/images'),
         loader: 'file-loader',
         options: {
-          name: 'assets/images/[path][name].[ext]'
+          name: '/assets/images/[hash].[ext]'
         }
       },
       {
         test: /\.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
         include: [path.resolve(__dirname, './src/assets/fonts/'), /node_modules/],
-        loader: 'file-loader?name=assets/fonts/[name].[ext]'
+        loader: 'file-loader',
+        options: {
+          name: '/assets/fonts/[name].[ext]'
+        }
       },
       {
         test: /manifest\.json$/,
         exclude: /node_modules/,
-        loader: 'file-loader?name=[name].[ext]'
+        loader: 'file-loader',
+        options: {
+          name: '[name].[ext]'
+        }
       }
     ]
   },

@@ -9,7 +9,6 @@ class Lightbox extends PureComponent {
   static defaultProps = {};
 
   constructor(props) {
-    const { children } = props;
     super(props);
     const lightboxImages = [];
 
@@ -17,32 +16,40 @@ class Lightbox extends PureComponent {
       const image = this.getLightBoxData(child);
       if (image) {
         lightboxImages.push(image);
+        return;
       }
-      const { props = {} } = child;
-      if (props.children) {
-        React.Children.forEach(props.children, processChildren);
+      if (child.props && child.props.children) {
+        this.traverseChildren(child.props.children, processChildren);
       }
     };
 
-    React.Children.forEach(children, processChildren);
-    // const childrenToRender = React.cloneElement(props.children);
+    this.traverseChildren(props.children, processChildren);
 
     this.state = {
       images: lightboxImages,
       showModal: false,
-      currentImage: null,
+      currentImage: undefined,
     };
   }
 
+  componentDidMount() {
+    addEventListener('orientationchange', this.closeModal);
+  }
+
+  componentWillUnmount() {
+    removeEventListener('orientationchange', this.closeModal);
+  }
+
   traverseChildren = (children, fn) => {
-    return React.Children.map(children, fn);
+    return React.Children.forEach(children, fn);
   }
 
   onImageClick = (event) => {
     const { target } = event;
     const img = this.findImageNode(target);
     if (img !== false && img.dataset['lightbox']) {
-      this.setState({ showModal: true, currentImage: img.dataset['lightbox'] });
+      const currentImage = this.state.images.findIndex(item => item.src == img.dataset['lightbox']);
+      this.setState({ showModal: true, currentImage });
     }
   }
 
@@ -67,7 +74,16 @@ class Lightbox extends PureComponent {
         description: item.props['data-description']
       };
     }
-    return null;
+
+    if (React.isValidElement(item)) {
+      if (item.props.src && item.props.srcLightbox) {
+        return {
+          src: item.props.srcLightbox,
+          description: ''
+        };
+      }
+    }
+    return undefined;
   }
 
   closeModal = () => {
@@ -78,12 +94,13 @@ class Lightbox extends PureComponent {
     const { children } = this.props;
     const { currentImage, images } = this.state;
 
-    const { showModal } = this.state;
-    return <div onClick={this.onImageClick}>{children}
-      {showModal &&
+    return (
+      <div onClick={this.onImageClick}>{children}
+        {this.state.showModal &&
         <ModalComponent onClose={this.closeModal} images={images} currentImage={currentImage} />
-      }
-    </div>;
+        }
+      </div>
+    );
   }
 }
 

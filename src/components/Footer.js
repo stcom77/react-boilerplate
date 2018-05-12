@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import LangMenu from 'components/LangMenu';
+import NavMenu from 'components/NavMenu';
 
 class Footer extends PureComponent {
   static propTypes = {};
@@ -13,44 +15,33 @@ class Footer extends PureComponent {
   }
 
   render() {
-    const {
-      ...props
-    } = this.props;
-    const {} = this.state;
-
     return (
       <footer className="footer">
         <div className="container">
           <div className="level">
             <div className="level-item level-left">
               <nav>
-                <Link to="/">ELENA SHARBUR</Link>
-                <span className="footer__divider">/</span>
-                <Link to="/art">ART</Link>
-                <span className="footer__divider">/</span>
-                <Link to="/contact">CONTACT</Link>
+                <NavMenu />
               </nav>
             </div>
             <div className="level-item level-right">
               <div className="social-icons">
-                <Link to="https://www.instagram.com/lenasharbur/">
-                  <i className="fa fa-instagram"></i>
-                </Link>
-                <Link to="https://www.facebook.com/ElenaSharbur">
-                  <i className="fa fa-facebook"></i>
-                </Link>
-                <Link to="https://vk.com/lena_sharbur">
-                  <i className="fa fa-vk"></i>
-                </Link>
-                <Link to="https://www.ok.ru/elenfleur">
-                  <i className="fa fa-odnoklassniki"></i>
-                </Link>
+                <a href="https://www.instagram.com/lenasharbur/">
+                  <i className="fa fa-instagram" />
+                </a>
+                <a href="https://www.facebook.com/ElenaSharbur">
+                  <i className="fa fa-facebook" />
+                </a>
+                <a href="https://vk.com/lena_sharbur">
+                  <i className="fa fa-vk" />
+                </a>
+                <a href="https://www.ok.ru/elenfleur">
+                  <i className="fa fa-odnoklassniki" />
+                </a>
               </div>
-              <nav>
-                <a>EN</a>
-                <span className="footer__divider">/</span>
-                <a>RU</a>
-              </nav>
+              <div>
+                <LangMenu />
+              </div>
             </div>
           </div>
         </div>

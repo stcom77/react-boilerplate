@@ -42,10 +42,28 @@ import slide15Thumb from 'assets/images/arts/t15.jpg';
 import slide15 from 'assets/images/arts/15.jpg';
 import LightBox from 'components/lightbox';
 
+import GalleryItem from 'components/GalleryItem';
+import { art } from './gallery_info';
+import { connect } from 'react-redux';
+import { Helmet } from 'react-helmet';
+
 class GalleryPage2 extends PureComponent {
+  static propTypes = {
+    currentLang: PropTypes.string,
+  };
+
+  makeItemInfo = (info, key, lang) => {
+    return info[key][lang].map((item, index) => <p key={item} className={index == 0 ? 'title' : ''}>{item}</p>);
+  };
+
   render() {
     return (
       <div className="gallery-page">
+        <Helmet
+          htmlAttributes={{ 'lang': this.props.currentLang }}
+        >
+          <title>Elena Sharbur</title>
+        </Helmet>
         <Header visible alwaysShow />
         <LightBox>
           <div className="container">
@@ -53,263 +71,168 @@ class GalleryPage2 extends PureComponent {
               <div className="tile is-vertical">
                 <div className="tile">
                   <div className="tile is-parent">
-                    <article className="tile is-child link_with_description">
-                      <figure className="image">
-                        <img src={slide20Thumb} data-lightbox={slide20} />
-                      </figure>
-                      <div className="overlay">
-                        <p className="title">Poppies</p>
-                        <p>2013 year</p>
-                        <p>50x60 cm</p>
-                        <p>Canvas, oil</p>
-                      </div>
-                    </article>
+                    <GalleryItem
+                      src={slide20Thumb}
+                      srcLightbox={slide20}
+                    >
+                      {this.makeItemInfo(art, '20', this.props.currentLang)}
+                    </GalleryItem>
                   </div>
                   <div className="tile is-parent">
-                    <article className="tile is-child link_with_description">
-                      <figure className="image">
-                        <img src={slide5Thumb} data-lightbox={slide5} />
-                      </figure>
-                      <div className="overlay">
-                        <p className="title">Poppies</p>
-                        <p>2012 year</p>
-                        <p>50x60 cm</p>
-                        <p>Canvas, oil</p>
-                      </div>
-                    </article>
+                    <GalleryItem
+                      src={slide5Thumb}
+                      srcLightbox={slide5}
+                    >
+                      {this.makeItemInfo(art, 'm5', this.props.currentLang)}
+                    </GalleryItem>
                   </div>
                 </div>
                 <div className="tile">
                   <div className="tile is-parent">
-                    <article className="tile is-child link_with_description">
-                      <figure className="image">
-                        <img src={slide12Thumb} data-lightbox={slide12} />
-                      </figure>
-                      <div className="overlay">
-                        <p className="title">Yaffa</p>
-                        <p>2011 year</p>
-                        <p>30x40 cm</p>
-                        <p>Canvas, oil</p>
-                      </div>
-                    </article>
+                    <GalleryItem
+                      src={slide12Thumb}
+                      srcLightbox={slide12}
+                    >
+                      {this.makeItemInfo(art, 't12', this.props.currentLang)}
+                    </GalleryItem>
                   </div>
                   <div className="tile is-parent">
-                    <article className="tile is-child link_with_description">
-                      <figure className="image">
-                        <img src={slide13Thumb} data-lightbox={slide13} />
-                      </figure>
-                      <div className="overlay">
-                        <p className="title">Old citadel</p>
-                        <p>2011 year</p>
-                        <p>40x50 cm</p>
-                        <p>Canvas, oil</p>
-                      </div>
-                    </article>
+                    <GalleryItem
+                      src={slide13Thumb}
+                      srcLightbox={slide13}
+                    >
+                      {this.makeItemInfo(art, 't13', this.props.currentLang)}
+                    </GalleryItem>
                   </div>
                   <div className="tile is-parent">
-                    <article className="tile is-child link_with_description">
-                      <figure className="image">
-                        <img src={slide16Thumb} data-lightbox={slide16} />
-                      </figure>
-                      <div className="overlay">
-                        <p className="title">Desert</p>
-                        <p>2011 year</p>
-                        <p>30x40 cm</p>
-                        <p>Canvas, oil</p>
-                      </div>
-                    </article>
+                    <GalleryItem
+                      src={slide16Thumb}
+                      srcLightbox={slide16}
+                    >
+                      {this.makeItemInfo(art, 't16', this.props.currentLang)}
+                    </GalleryItem>
                   </div>
                 </div>
                 <div className="tile">
                   <div className="tile is-parent">
-                    <article className="tile is-child link_with_description">
-                      <figure className="image">
-                        <img src={slide21Thumb} data-lightbox={slide21} />
-                      </figure>
-                      <div className="overlay">
-                        <p className="title">Elbrus</p>
-                        <p>2012 year</p>
-                        <p>80x100 cm</p>
-                        <p>Canvas, oil</p>
-                      </div>
-                    </article>
+                    <GalleryItem
+                      src={slide21Thumb}
+                      srcLightbox={slide21}
+                    >
+                      {this.makeItemInfo(art, 't21', this.props.currentLang)}
+                    </GalleryItem>
                   </div>
                   <div className="tile is-parent">
-                    <article className="tile is-child link_with_description">
-                      <figure className="image">
-                        <img src={slide17Thumb} data-lightbox={slide17} />
-                      </figure>
-                      <div className="overlay">
-                        <p className="title">Winter</p>
-                        <p>2012 year</p>
-                        <p>40x60 cm</p>
-                        <p>Canvas, oil</p>
-                      </div>
-                    </article>
+                    <GalleryItem
+                      src={slide17Thumb}
+                      srcLightbox={slide17}
+                    >
+                      {this.makeItemInfo(art, 't17', this.props.currentLang)}
+                    </GalleryItem>
                   </div>
                 </div>
                 <div className="tile">
                   <div className="tile is-parent">
-                    <article className="tile is-child link_with_description">
-                      <figure className="image">
-                        <img src={slide3Thumb} data-lightbox={slide3} />
-                      </figure>
-                      <div className="overlay">
-                        <p className="title">Flower spirit</p>
-                        <p>2011 year</p>
-                        <p>50x50 cm</p>
-                        <p>Canvas, oil</p>
-                      </div>
-                    </article>
+                    <GalleryItem
+                      src={slide3Thumb}
+                      srcLightbox={slide3}
+                    >
+                      {this.makeItemInfo(art, 't3', this.props.currentLang)}
+                    </GalleryItem>
                   </div>
                   <div className="tile is-parent">
-                    <article className="tile is-child link_with_description">
-                      <figure className="image">
-                        <img src={slide11Thumb} data-lightbox={slide11} />
-                      </figure>
-                      <div className="overlay">
-                        <p className="title">Napoleon flower</p>
-                        <p>2011 year</p>
-                        <p>60x80 cm</p>
-                        <p>Canvas, oil</p>
-                      </div>
-                    </article>
+                    <GalleryItem
+                      src={slide11Thumb}
+                      srcLightbox={slide11}
+                    >
+                      {this.makeItemInfo(art, 't11', this.props.currentLang)}
+                    </GalleryItem>
                   </div>
                   <div className="tile is-parent">
-                    <article className="tile is-child link_with_description">
-                      <figure className="image">
-                        <img src={slide9Thumb} data-lightbox={slide9} />
-                      </figure>
-                      <div className="overlay">
-                        <p className="title">Lilies</p>
-                        <p>2011 year</p>
-                        <p>60x80 cm</p>
-                        <p>Canvas, oil</p>
-                      </div>
-                    </article>
+                    <GalleryItem
+                      src={slide9Thumb}
+                      srcLightbox={slide9}
+                    >
+                      {this.makeItemInfo(art, '9', this.props.currentLang)}
+                    </GalleryItem>
                   </div>
                 </div>
                 <div className="tile">
                   <div className="tile is-parent">
-                    <article className="tile is-child link_with_description">
-                      <figure className="image">
-                        <img src={slide6Thumb} data-lightbox={slide6} />
-                      </figure>
-                      <div className="overlay">
-                        <p className="title">Earth man</p>
-                        <p>2012 year</p>
-                        <p>80x60 cm</p>
-                        <p>Canvas, oil</p>
-                      </div>
-                    </article>
+                    <GalleryItem
+                      src={slide6Thumb}
+                      srcLightbox={slide6}
+                    >
+                      {this.makeItemInfo(art, '6', this.props.currentLang)}
+                    </GalleryItem>
                   </div>
                   <div className="tile is-parent is-7">
-                    <article className="tile is-child link_with_description">
-                      <figure className="image">
-                        <img src={slide2Thumb} data-lightbox={slide2} />
-                      </figure>
-                      <div className="overlay">
-                        <p className="title">Life</p>
-                        <p>2014 year</p>
-                        <p>60x80 cm</p>
-                        <p>Canvas, acrylic</p>
-                      </div>
-                    </article>
+                    <GalleryItem
+                      src={slide2Thumb}
+                      srcLightbox={slide2}
+                    >
+                      {this.makeItemInfo(art, '2', this.props.currentLang)}
+                    </GalleryItem>
                   </div>
                 </div>
                 <div className="tile">
                   <div className="tile is-parent">
-                    <article className="tile is-child link_with_description">
-                      <figure className="image">
-                        <img src={slide1Thumb} data-lightbox={slide1} />
-                      </figure>
-                      <div className="overlay">
-                        <p className="title">Motherland</p>
-                        <p>2011 year</p>
-                        <p>20x30 cm</p>
-                        <p>Canvas, oil</p>
-                      </div>
-                    </article>
+                    <GalleryItem
+                      src={slide1Thumb}
+                      srcLightbox={slide1}
+                    >
+                      {this.makeItemInfo(art, '1', this.props.currentLang)}
+                    </GalleryItem>
                   </div>
                   <div className="tile is-parent">
-                    <article className="tile is-child link_with_description">
-                      <figure className="image">
-                        <img src={slide7Thumb} data-lightbox={slide7} />
-                      </figure>
-                      <div className="overlay">
-                        <p className="title">Brain</p>
-                        <p>2011 year</p>
-                        <p>40x40 cm</p>
-                        <p>Canvas, oil</p>
-                      </div>
-                    </article>
+                    <GalleryItem
+                      src={slide7Thumb}
+                      srcLightbox={slide7}
+                    >
+                      {this.makeItemInfo(art, '7', this.props.currentLang)}
+                    </GalleryItem>
                   </div>
                   <div className="tile is-parent">
-                    <article className="tile is-child link_with_description">
-                      <figure className="image">
-                        <img src={slide18Thumb} data-lightbox={slide18} />
-                      </figure>
-                      <div className="overlay">
-                        <p className="title">Rider</p>
-                        <p>2010 year</p>
-                        <p>60x40 cm</p>
-                        <p>Canvas, oil</p>
-                      </div>
-                    </article>
+                    <GalleryItem
+                      src={slide18Thumb}
+                      srcLightbox={slide18}
+                    >
+                      {this.makeItemInfo(art, '18', this.props.currentLang)}
+                    </GalleryItem>
                   </div>
                 </div>
                 <div className="tile">
                   <div className="tile is-parent">
-                    <article className="tile is-child link_with_description">
-                      <figure className="image">
-                        <img src={slide10Thumb} data-lightbox={slide10} />
-                      </figure>
-                      <div className="overlay">
-                        <p className="title">Relations</p>
-                        <p>2011 year</p>
-                        <p>80x60 cm</p>
-                        <p>Canvas, oil</p>
-                      </div>
-                    </article>
+                    <GalleryItem
+                      src={slide10Thumb}
+                      srcLightbox={slide10}
+                    >
+                      {this.makeItemInfo(art, '10', this.props.currentLang)}
+                    </GalleryItem>
                   </div>
                   <div className="tile is-parent">
-                    <article className="tile is-child link_with_description">
-                      <figure className="image">
-                        <img src={slide14Thumb} data-lightbox={slide14} />
-                      </figure>
-                      <div className="overlay">
-                        <p className="title">Nymphs</p>
-                        <p>2011 year</p>
-                        <p>80x60 cm</p>
-                        <p>Canvas, oil</p>
-                      </div>
-                    </article>
+                    <GalleryItem
+                      src={slide14Thumb}
+                      srcLightbox={slide14}
+                    >
+                      {this.makeItemInfo(art, '14', this.props.currentLang)}
+                    </GalleryItem>
                   </div>
                   <div className="tile is-parent">
-                    <article className="tile is-child link_with_description">
-                      <figure className="image">
-                        <img src={slide15Thumb} data-lightbox={slide15} />
-                      </figure>
-                      <div className="overlay">
-                        <p className="title">Flowers</p>
-                        <p>2011 year</p>
-                        <p>80x60 cm</p>
-                        <p>Canvas, oil</p>
-                      </div>
-                    </article>
+                    <GalleryItem
+                      src={slide15Thumb}
+                      srcLightbox={slide15}
+                    >
+                      {this.makeItemInfo(art, '15', this.props.currentLang)}
+                    </GalleryItem>
                   </div>
                   <div className="tile is-parent">
-                    <article className="tile is-child link_with_description">
-                      <figure className="image">
-                        <img src={slide8Thumb} data-lightbox={slide8} />
-                      </figure>
-                      <div className="overlay">
-                        <p className="title">Women</p>
-                        <p>2011 year</p>
-                        <p>40x30 cm</p>
-                        <p>Canvas, oil</p>
-                      </div>
-                    </article>
+                    <GalleryItem
+                      src={slide8Thumb}
+                      srcLightbox={slide8}
+                    >
+                      {this.makeItemInfo(art, '8', this.props.currentLang)}
+                    </GalleryItem>
                   </div>
                 </div>
               </div>
@@ -322,4 +245,8 @@ class GalleryPage2 extends PureComponent {
   }
 }
 
-export default GalleryPage2;
+const getData = (state) => {
+  return { currentLang: state.main.currentLang };
+};
+
+export default connect(getData)(GalleryPage2);

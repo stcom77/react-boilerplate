@@ -8,6 +8,8 @@ import ArtistPage from '../pages/ArtistPage';
 import ContactPage from '../pages/ContactPage';
 import GalleryPage from '../pages/GalleryPage';
 import GalleryPageArt from '../pages/GalleryPageArt';
+import GalleryPageCryptoArt from '../pages/GalleryPageCryptoArt';
+import GalleryPagePhoto from '../pages/GalleryPagePhoto';
 
 class App extends Component {
   render() {
@@ -18,6 +20,8 @@ class App extends Component {
           <Route path="/contact" component={ContactPage} />
           <Route path="/portrait" component={GalleryPage} />
           <Route path="/art" component={GalleryPageArt} />
+          <Route path="/cryptoart" component={GalleryPageCryptoArt} />
+          <Route path="/photo" component={GalleryPagePhoto} />
           <Route exact path="/" component={MainPage} />
           <Redirect to="/art"/>
         </Switch>

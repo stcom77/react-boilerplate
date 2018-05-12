@@ -29,6 +29,10 @@ class SlideCollection {
     return this.store.map(callback);
   }
 
+  forEach(callback) {
+    return this.store.forEach(callback);
+  }
+
   getSlide(index) {
     return this.store[index];
   }

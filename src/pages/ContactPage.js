@@ -4,6 +4,7 @@ import Header from 'components/Header';
 import Footer from 'components/Footer';
 import starImg from 'assets/images/Star.svg';
 import SVGInline from 'react-svg-inline';
+import { Helmet } from 'react-helmet';
 
 class ContactPage extends PureComponent {
   static propTypes = {};
@@ -16,13 +17,13 @@ class ContactPage extends PureComponent {
   }
 
   render() {
-    const {
-      ...props
-    } = this.props;
     const {} = this.state;
 
     return (
       <section className="conacts-page hero is-fullheight">
+        <Helmet>
+          <title>Elena Sharbur</title>
+        </Helmet>
         <div className="hero-head">
           <Header visible />
         </div>

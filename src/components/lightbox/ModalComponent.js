@@ -5,20 +5,17 @@ import SVGInline from 'react-svg-inline';
 import closeIcon from 'assets/images/closeIcon.svg';
 import { isNarrowScreenDevice } from '../../utils/other';
 import { SWIPE_LEFT, SWIPE_RIGHT, handleGesure } from '../../utils/gestures';
-
-const spinner = (
-  <div className="spinner">
-    <div className="double-bounce1"></div>
-    <div className="double-bounce2"></div>
-  </div>
-);
+import Spinner from 'components/Spinner';
 
 const descriptionHeight = 50; //px
 
 class ModalComponent extends PureComponent {
   static propTypes = {
-    currentImage: PropTypes.string,
-    images: PropTypes.arrayOf(PropTypes.string),
+    currentImage: PropTypes.number,
+    images: PropTypes.arrayOf(PropTypes.shape({
+      src: PropTypes.string,
+      description: PropTypes.string
+    })),
     onClose: PropTypes.func,
   };
 
@@ -50,17 +47,17 @@ class ModalComponent extends PureComponent {
     const { target } = event;
     let node = target;
     while (node !== document.body) {
-      if(node.classList.contains('modal_lighbox__image')){
-        if(event.type=='touchstart'){
+      if (node.classList.contains('modal_lighbox__image')) {
+        if (event.type == 'touchstart') {
           this.touchstartX = event.changedTouches[0].screenX;
         }
-        if(event.type=='touchend'){
+        if (event.type == 'touchend') {
           this.touchendX = event.changedTouches[0].screenX;
           const gesture = handleGesure(this.touchstartX, this.touchendX);
-          if(gesture == SWIPE_LEFT){
+          if (gesture == SWIPE_LEFT) {
             this.prevImage();
           }
-          if(gesture == SWIPE_RIGHT){
+          if (gesture == SWIPE_RIGHT) {
             this.nextImage();
           }
         }
@@ -71,32 +68,32 @@ class ModalComponent extends PureComponent {
     }
   }
 
+  countDimension = (ratio, otherDimension) => Math.round(ratio * otherDimension);
+
   imageLoaded = () => {
     const { modalWidth, modalHeight } = this.state;
     let widthMagn;
-
     if (isNarrowScreenDevice()) {
-      widthMagn = 0.9;
+      widthMagn = 1;
     } else {
-      widthMagn = 0.7;
+      widthMagn = 0.9;
     }
-    this.setState({ showSpinner: false });
-    const minClientSize = Math.round(Math.min(document.documentElement.clientWidth, document.documentElement.clientHeight) * widthMagn);
-    const maxDimension = Math.max(this.image.naturalWidth, this.image.naturalHeight);
+
+    const clientWidth = document.documentElement.clientWidth;
+    const clientHeight = document.documentElement.clientHeight;
+
     let newWidth, newHeight;
+    const imageRatio = this.image.naturalHeight / this.image.naturalWidth;
+
     switch (true) {
-    case maxDimension <= minClientSize:
-      newWidth = this.image.naturalWidth;
-      newHeight = this.image.naturalHeight;
-      break;
-    case maxDimension === this.image.naturalWidth:
-      newWidth = minClientSize;
-      newHeight = Math.round((this.image.naturalHeight / this.image.naturalWidth) * newWidth);
-      break;
-    case maxDimension === this.image.naturalHeight:
-      newHeight = minClientSize;
-      newWidth = Math.round((this.image.naturalWidth / this.image.naturalHeight) * newHeight);
-      break;
+      case clientWidth >= clientHeight:
+        newHeight = clientHeight * widthMagn;
+        newWidth = this.countDimension(1 / imageRatio, newHeight);
+        break;
+      case clientHeight > clientWidth:
+        newWidth = clientWidth * widthMagn;
+        newHeight = this.countDimension(imageRatio, newWidth);
+        break;
     }
     this.setState({
       modalWidth: `${newWidth}px`,
@@ -113,29 +110,25 @@ class ModalComponent extends PureComponent {
   }
 
   prevImage = () => {
-    const { images } = this.props;
     const { currentImage } = this.state;
-    const currentImageIndex = images.findIndex(image => {
-      return image.src == currentImage;
-    });
-    if (currentImageIndex > 0) {
-      this.setState({ currentImage: images[currentImageIndex - 1].src });
+
+    if (currentImage - 1 > 0) {
+      this.setState({ currentImage: currentImage - 1 });
     }
   }
 
   nextImage = () => {
     const { images } = this.props;
+
     const { currentImage } = this.state;
-    const currentImageIndex = images.findIndex(image => {
-      return image.src == currentImage;
-    });
-    if (currentImageIndex < images.length - 1) {
-      this.setState({ currentImage: images[currentImageIndex + 1].src });
+
+    if (currentImage + 1 < images.length) {
+      this.setState({ currentImage: currentImage + 1 });
     }
   }
 
   setImageRef = (el) => {
-    if(el){
+    if (el) {
       this.image = el;
       this.image.addEventListener('touchstart', this.swipeEvent, false);
       this.image.addEventListener('touchend', this.swipeEvent, false);
@@ -143,6 +136,8 @@ class ModalComponent extends PureComponent {
   };
 
   onTransitionEnd = (e) => {
+    this.setState({ showSpinner: false });
+
     if (e.target.classList.contains('modal_lighbox')) {
       this.setState({ adaptImage: false });
     }
@@ -157,23 +152,17 @@ class ModalComponent extends PureComponent {
 
   isNext = () => {
     const { images } = this.props;
+
     const { currentImage } = this.state;
-    const currentImageIndex = images.findIndex(image => {
-      return image.src == currentImage;
-    });
-    if (currentImageIndex < images.length - 1) {
+    if (currentImage < images.length - 1) {
       return true;
     }
     return false;
   }
 
   isPrev = () => {
-    const { images } = this.props;
     const { currentImage } = this.state;
-    const currentImageIndex = images.findIndex(image => {
-      return image.src == currentImage;
-    });
-    if (currentImageIndex > 0) {
+    if (currentImage > 0) {
       return true;
     }
     return false;
@@ -181,7 +170,8 @@ class ModalComponent extends PureComponent {
 
   render() {
     const {
-      onClose
+      onClose,
+      images
     } = this.props;
     const { showSpinner, modalWidth, modalHeight, currentImage, adaptImage } = this.state;
 
@@ -198,27 +188,28 @@ class ModalComponent extends PureComponent {
           content: {
             width: modalWidth,
             height: modalHeight,
-            transform: 'translate(-50%, -50%)',
+            transform: 'translate(-52%, -50%)',
             WebkitOverflowScrolling: 'touch',
             borderRadius: '4px',
             outline: 'none',
           }
         }}
+        overlayClassName="modal__overlay"
       >
-        {showSpinner ? spinner : null}
-        <div className="modal_lighbox__image" style={{ display: showSpinner ? 'none' : 'block' }}>
-          <img ref={this.setImageRef} src={currentImage} onLoad={this.imageLoaded} style={{ visibility: adaptImage ? 'hidden' : 'visible' }} />
+        {showSpinner ? <Spinner /> : null}
+        <div className="modal_lighbox__image" style={{ display: showSpinner ? 'none' : 'block' }} onTransitionEnd={() => console.log('animation end')}>
+          <img ref={this.setImageRef} src={images[currentImage].src} onLoad={this.imageLoaded} style={{ visibility: adaptImage ? 'hidden' : 'visible' }} />
           <div className="modal_lighbox__nav">
             {this.isPrev() &&
-            <div className="prev" onClick={this.prevImage}></div>
+            <div className="prev" onClick={this.prevImage} onTouchStart={this.prevImage}></div>
             }
             {this.isNext() &&
-            <div className="next" onClick={this.nextImage}></div>
+            <div className="next" onClick={this.nextImage} onTouchStart={this.nextImage}></div>
             }
           </div>
         </div>
         <div className="modal_lighbox__description">
-          some picture description
+          {images[currentImage].description}
           <SVGInline onClick={onClose} className='modal_lighbox__close_button' svg={closeIcon} />
         </div>
       </Modal>

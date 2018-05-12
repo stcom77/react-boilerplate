@@ -1,18 +1,20 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import debounce from 'lodash/debounce';
 import jump from 'jump.js';
+import { connect } from 'react-redux';
+import LangMenu from 'components/LangMenu';
+import NavMenu from 'components/NavMenu';
 
 class Header extends PureComponent {
-  static
-  propTypes = {
+  static propTypes = {
     alwaysShow: PropTypes.bool,
+    currentLang: PropTypes.string,
     visible: PropTypes.bool,
   };
 
-  static
-  defaultProps = {
+  static defaultProps = {
     visible: false,
     alwaysShow: false
   };
@@ -28,15 +30,15 @@ class Header extends PureComponent {
 
   componentDidMount() {
     const { alwaysShow } = this.props;
-    if(!alwaysShow){
+    if (!alwaysShow) {
       window.addEventListener('scroll', this.checkWindowScrolled);
     }
   }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     const { alwaysShow } = this.props;
 
-    if(!alwaysShow){
+    if (!alwaysShow) {
       window.removeEventListener('scroll', this.checkWindowScrolled);
     }
   }
@@ -50,31 +52,20 @@ class Header extends PureComponent {
     }
   }, 100);
 
-  goToArt = () => {
-    jump('.last-works__body', {
-      offset: -30,
-    });
-  }
-
   render() {
     const { visible } = this.state;
+
     return (
       <div className={`header header--fixed ${visible ? 'header--visible' : 'header--hidden'}`}>
         <div className="container">
           <div className="level is-mobile">
-            <div className="level-item level-left">
-              <Link to="/">MAIN</Link>
-              <span className="header__divider">/</span>
-              <Link to="#" onClick={this.goToArt}>ART</Link>
-              <span className="header__divider">/</span>
-              <Link to="/contact">CONTACT</Link>
+            <div>
+              <div className="level-item level-left">
+                <NavMenu />
+              </div>
             </div>
             <div className="level-item level-right">
-              <div>
-                <Link to="/">EN</Link>
-                <span className="header__divider">/</span>
-                <Link to="/art">RU</Link>
-              </div>
+              <LangMenu />
             </div>
           </div>
         </div>
@@ -83,4 +74,8 @@ class Header extends PureComponent {
   }
 }
 
-export default Header;
+const getData = (state) => {
+  return { currentLang: state.main.currentLang };
+};
+
+export default connect(getData)(Header);

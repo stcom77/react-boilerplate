@@ -17,7 +17,7 @@ class Bullet extends PureComponent {
     const {
       slide
     } = this.props;
-    console.log(slide.props);
+
     return (
       <span key={slide.props.index} data-index={slide.props.index} className="bullet"><BulletThumb img={slide.props.thumb} /></span>
     );

@@ -1,15 +1,14 @@
 import { createStore, combineReducers } from 'redux';
 
-import example from './exampleReducer';
+import main from './mainReducer';
 
 export const reducers = combineReducers({
-  example
+  main
 });
 
 function configureStore() {
   let store;
   if (typeof window === 'undefined') {
-    //for tests
     store = createStore(
       reducers
     );

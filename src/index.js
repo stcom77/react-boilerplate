@@ -1,13 +1,13 @@
 import React from 'react';
 import { render } from 'react-dom';
 import App from './components/App';
-import {AppContainer} from 'react-hot-loader';
+import { AppContainer } from 'react-hot-loader';
 
 import { Provider } from 'react-redux';
 import store from './reducers';
 
 import 'assets/stylus/main.styl';
-import '../node_modules/font-awesome/css/font-awesome.css';
+// import '../node_modules/font-awesome/css/font-awesome.min.css';
 import 'manifest.json';
 
 if (process.env.NODE_ENV !== 'production') {
@@ -42,6 +42,6 @@ render(
   document.getElementById('app')
 );
 
-if(module.hot){
+if (module.hot) {
   module.hot.accept('./components/App', () => renderHot(AppComponent));
 }

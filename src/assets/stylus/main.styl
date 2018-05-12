@@ -13,6 +13,8 @@ $header_height=40px
 @import './lightbox'
 @import './header'
 @import './gallery-page'
+@import './modal'
+@import './lang_menu'
 
 body
   font-size: 15px
@@ -34,6 +36,8 @@ body
   .hero-header
     @media $media_mobile
       margin-top 5px
+      padding-left 5px
+      padding-right 5px
   .hero-body
     @media $media_mobile
       padding: 1rem 0.5rem;
@@ -42,8 +46,6 @@ body
       svg
         @media $media_mobile
           width: 40px
-  .last-works
-    padding-top: 0
   .art-title
     margin-top: 1.5rem
     margin-bottom 0.5rem
@@ -79,21 +81,6 @@ body
       width: 100% !important
       @media $media_mobile
         height: 160px !important;
-  .last-works__title
-    .title
-      margin 20px 0
-      border-top: grey solid 1px
-      border-bottom: grey solid 1px
-      padding: 5px 0
-      width: 200px;
-      text-align: center;
-  .last-works__body
-    .tile.is-parent:first-of-type
-      padding-left: 0.75rem
-    .tile.is-parent:last-of-type
-      padding-right: 0.75rem
-    .tile.is-child:not(:last-child)
-      margin-right 24px !important
 .main-title
   font-size: 3rem
   font-family "Open Sans"
@@ -104,38 +91,38 @@ body
   stroke-dasharray: 1000
   stroke-dashoffset: 1000
   animation: dash 15s linear forwards;
-.link_with_description
-  position: relative
-  .overlay
-    display: flex
-    flex-direction column
-    align-items: center;
-    justify-content: center;
-    height 100%
-    width 100%
-    position absolute
-    top: 0
-    left: 0
-    will-change opacity
-    transition opacity 1s ease-out
-    background-color: white;
-    opacity: 0;
-    text-align center
-    &:hover
-      opacity: 0.7;
-    .title
-      font-size 2rem
-    p
-      margin-bottom 1rem
-    span
-      font-size: 50px;
-      color: black;
+//.link_with_description
+//  position: relative
+//  .overlay
+//    display: flex
+//    flex-direction column
+//    align-items: center;
+//    justify-content: center;
+//    height 100%
+//    width 100%
+//    position absolute
+//    top: 0
+//    left: 0
+//    will-change opacity
+//    transition opacity 1s ease-out
+//    background-color: white;
+//    opacity: 0;
+//    text-align center
+//    &:hover
+//      opacity: 0.7;
+//    .title
+//      font-size 2rem
+//    p
+//      margin-bottom 1rem
+//    span
+//      font-size: 50px;
+//      color: black;
 .touchevents
-  .gallery-block, .last-works
+  .gallery-block
     .link_with_description
       .overlay
         position absolute
-        opacity 1;
+        opacity 0;
         background-color: transparent
         margin-top: 10px;
         flex-wrap: wrap
@@ -147,8 +134,12 @@ body
           flex-shrink 0
           &:before
             content: '  '
+        &:focus
+          opacity: 1;
+        &:active
+          opacity: 1;
         &:hover
-          opacity: 0;
+          opacity: 1;
   .gallery-page
     .link_with_description
       .overlay

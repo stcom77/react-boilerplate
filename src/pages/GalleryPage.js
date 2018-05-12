@@ -29,9 +29,16 @@ import slide9 from 'assets/images/portraits/9.jpg';
 import slide1742Thumb from 'assets/images/portraits/t1742.jpg';
 import slide1742 from 'assets/images/portraits/1742.jpg';
 import LightBox from '../components/lightbox';
+import { connect } from 'react-redux';
+import { portraits } from './gallery_info';
+import { Helmet } from 'react-helmet';
+
+import GalleryItem from 'components/GalleryItem';
 
 class GalleryPage extends PureComponent {
-  static propTypes = {};
+  static propTypes = {
+    currentLang: PropTypes.string,
+  };
 
   static defaultProps = {};
 
@@ -46,14 +53,18 @@ class GalleryPage extends PureComponent {
     this.setState({ showModal: !this.state.showModal });
   }
 
-  render() {
-    const {
-      showModal
-    } = this.state;
-    const {} = this.state;
+  makeItemInfo = (info, key, lang) => {
+    return info[key][lang].map((item, index) => <p key={item} className={index == 0 ? 'title' : ''}>{item}</p>);
+  };
 
+  render() {
     return (
       <div className="gallery-page">
+        <Helmet
+          htmlAttributes={{ 'lang': this.props.currentLang }}
+        >
+          <title>Elena Sharbur</title>
+        </Helmet>
         <Header visible alwaysShow />
         <LightBox>
           <div className="container">
@@ -61,285 +72,116 @@ class GalleryPage extends PureComponent {
               <div className="tile is-vertical">
                 <div className="tile">
                   <div className="tile is-parent">
-                    <article className="tile is-child link_with_description">
-                      <figure className="image">
-                        <img src={slide4Thumb} data-lightbox={slide4} />
-                      </figure>
-                      <div className="overlay">
-                        <p className="title">
-                          Nataly
-                        </p>
-                        <p>
-                          2014 year
-                        </p>
-                        <p>
-                          20x20 cm
-                        </p>
-                        <p>
-                          Canvas, oil
-                        </p>
-                      </div>
-                    </article>
+                    <GalleryItem
+                      src={slide4Thumb}
+                      srcLightbox={slide4}
+                    >
+                      {this.makeItemInfo(portraits, '4', this.props.currentLang)}
+                    </GalleryItem>
                   </div>
                   <div className="tile is-parent">
-                    <article className="tile is-child link_with_description">
-                      <figure className="image">
-                        <img src={slide3Thumb} data-lightbox={slide3} />
-                      </figure>
-                      <div className="overlay">
-                        <p className="title">
-                          Marya
-                        </p>
-                        <p>
-                          2014 year
-                        </p>
-                        <p>
-                          20x20 cm
-                        </p>
-                        <p>
-                          Canvas, oil
-                        </p>
-                      </div>
-                    </article>
+                    <GalleryItem
+                      src={slide3Thumb}
+                      srcLightbox={slide3}
+                    >
+                      {this.makeItemInfo(portraits, '3', this.props.currentLang)}
+                    </GalleryItem>
                   </div>
                   <div className="tile is-parent is-4">
-                    <article className="tile is-child link_with_description">
-                      <figure className="image">
-                        <img src={slide1Thumb} data-lightbox={slide1} />
-                      </figure>
-                      <div className="overlay">
-                        <p className="title">
-                          Kira portrait
-                        </p>
-                        <p>
-                          2016 year
-                        </p>
-                        <p>
-                          50x40 cm
-                        </p>
-                        <p>
-                          Canvas, acrylic
-                        </p>
-                      </div>
-                    </article>
+                    <GalleryItem
+                      src={slide1Thumb}
+                      srcLightbox={slide1}
+                    >
+                      {this.makeItemInfo(portraits, 't1', this.props.currentLang)}
+                    </GalleryItem>
                   </div>
                 </div>
                 <div className="tile">
                   <div className="tile is-parent is-6">
-                    <article className="tile is-child link_with_description">
-                      <figure className="image">
-                        <img src={slide6Thumb} data-lightbox={slide6} />
-                      </figure>
-                      <div className="overlay">
-                        <p className="title">
-                          Emotions
-                        </p>
-                        <p>
-                          2015 year
-                        </p>
-                        <p>
-                          80x60 cm
-                        </p>
-                        <p>
-                          Canvas, acrylic
-                        </p>
-                      </div>
-                    </article>
+                    <GalleryItem
+                      src={slide6Thumb}
+                      srcLightbox={slide6}
+                    >
+                      {this.makeItemInfo(portraits, 't6', this.props.currentLang)}
+                    </GalleryItem>
                   </div>
                   <div className="tile is-parent">
-                    <article className="tile is-child link_with_description">
-                      <figure className="image">
-                        <img src={slide5Thumb} data-lightbox={slide5} />
-                      </figure>
-                      <div className="overlay">
-                        <p className="title">
-                          Red-haired girl
-                        </p>
-                        <p>
-                          2015 year
-                        </p>
-                        <p>
-                          40x30 cm
-                        </p>
-                        <p>
-                          Canvas, acrylic
-                        </p>
-                      </div>
-                    </article>
+                    <GalleryItem
+                      src={slide5Thumb}
+                      srcLightbox={slide5}
+                    >
+                      {this.makeItemInfo(portraits, 't5', this.props.currentLang)}
+                    </GalleryItem>
                   </div>
                 </div>
                 <div className="tile">
                   <div className="tile is-parent is-5">
-                    <article className="tile is-child link_with_description">
-                      <figure className="image">
-                        <img src={slide2Thumb} data-lightbox={slide2} />
-                      </figure>
-                      <div className="overlay">
-                        <p className="title">
-                          Duchess Olga
-                        </p>
-                        <p>
-                          2015 year
-                        </p>
-                        <p>
-                          80x60 cm
-                        </p>
-                        <p>
-                          Canvas, oil
-                        </p>
-                      </div>
-                    </article>
+                    <GalleryItem
+                      src={slide2Thumb}
+                      srcLightbox={slide2}
+                    >
+                      {this.makeItemInfo(portraits, 't2', this.props.currentLang)}
+                    </GalleryItem>
                   </div>
                   <div className="tile is-parent">
-                    <article className="tile is-child link_with_description">
-                      <figure className="image">
-                        <img src={slide13Thumb} data-lightbox={slide13} />
-                      </figure>
-                      <div className="overlay">
-                        <p className="title">
-                          Nicas
-                        </p>
-                        <p>
-                          2016 year
-                        </p>
-                        <p>
-                          30x30 cm
-                        </p>
-                        <p>
-                          Canvas, oil
-                        </p>
-                      </div>
-                    </article>
+                    <GalleryItem
+                      src={slide13Thumb}
+                      srcLightbox={slide13}
+                    >
+                      {this.makeItemInfo(portraits, '13', this.props.currentLang)}
+                    </GalleryItem>
                   </div>
                 </div>
                 <div className="tile">
                   <div className="tile is-parent">
-                    <article className="tile is-child link_with_description">
-                      <figure className="image">
-                        <img src={slide8Thumb} data-lightbox={slide8} />
-                      </figure>
-                      <div className="overlay">
-                        <p className="title">
-                          Vika
-                        </p>
-                        <p>
-                          2010 year
-                        </p>
-                        <p>
-                          40x20 cm
-                        </p>
-                        <p>
-                          Paper, mascara
-                        </p>
-                      </div>
-                    </article>
+                    <GalleryItem
+                      src={slide8Thumb}
+                      srcLightbox={slide8}
+                    >
+                      {this.makeItemInfo(portraits, 't8', this.props.currentLang)}
+                    </GalleryItem>
                   </div>
                   <div className="tile is-parent">
-                    <article className="tile is-child link_with_description">
-                      <figure className="image">
-                        <img src={slide10Thumb} data-lightbox={slide10} />
-                      </figure>
-                      <div className="overlay">
-                        <p className="title">
-                          Self portrait
-                        </p>
-                        <p>
-                          2010 year
-                        </p>
-                        <p>
-                          80x60 cm
-                        </p>
-                        <p>
-                          Paper, watercolor
-                        </p>
-                      </div>
-                    </article>
+                    <GalleryItem
+                      src={slide10Thumb}
+                      srcLightbox={slide10}
+                    >
+                      {this.makeItemInfo(portraits, 't10', this.props.currentLang)}
+                    </GalleryItem>
                   </div>
                   <div className="tile is-parent">
-                    <article className="tile is-child link_with_description">
-                      <figure className="image">
-                        <img src={slide11Thumb} data-lightbox={slide11} />
-                      </figure>
-                      <div className="overlay">
-                        <p className="title">
-                          Keith
-                        </p>
-                        <p>
-                          2010 year
-                        </p>
-                        <p>
-                          40x30 cm
-                        </p>
-                        <p>
-                          Canvas, oil
-                        </p>
-                      </div>
-                    </article>
+                    <GalleryItem
+                      src={slide11Thumb}
+                      srcLightbox={slide11}
+                    >
+                      {this.makeItemInfo(portraits, 't11', this.props.currentLang)}
+                    </GalleryItem>
                   </div>
                   <div className="tile is-parent">
-                    <article className="tile is-child link_with_description">
-                      <figure className="image">
-                        <img src={slide7Thumb} data-lightbox={slide7} />
-                      </figure>
-                      <div className="overlay">
-                        <p className="title">
-                          Anna
-                        </p>
-                        <p>
-                          2010 year
-                        </p>
-                        <p>
-                          30x40 cm
-                        </p>
-                        <p>
-                          Design paper, mascara
-                        </p>
-                      </div>
-                    </article>
+                    <GalleryItem
+                      src={slide7Thumb}
+                      srcLightbox={slide7}
+                    >
+                      {this.makeItemInfo(portraits, 't7', this.props.currentLang)}
+                    </GalleryItem>
                   </div>
                 </div>
                 <div className="tile">
                   <div className="tile is-parent">
-                    <article className="tile is-child link_with_description">
-                      <figure className="image">
-                        <img src={slide9Thumb} data-lightbox={slide9} />
-                      </figure>
-                      <div className="overlay">
-                        <p className="title">
-                          Lovers
-                        </p>
-                        <p>
-                          2010 year
-                        </p>
-                        <p>
-                          80x70 cm
-                        </p>
-                        <p>
-                          Canvas, oil
-                        </p>
-                      </div>
-                    </article>
+                    <GalleryItem
+                      src={slide9Thumb}
+                      srcLightbox={slide9}
+                    >
+                      {this.makeItemInfo(portraits, 't9', this.props.currentLang)}
+                    </GalleryItem>
                   </div>
                   <div className="tile is-parent">
-                    <article className="tile is-child link_with_description">
-                      <figure className="image">
-                        <img src={slide1742Thumb} data-lightbox={slide1742} />
-                      </figure>
-                      <div className="overlay">
-                        <p className="title">
-                          Rafael
-                        </p>
-                        <p>
-                          2017 year
-                        </p>
-                        <p>
-                          40x40 cm
-                        </p>
-                        <p>
-                          Canvas, oil
-                        </p>
-                      </div>
-                    </article>
+                    <GalleryItem
+                      src={slide1742Thumb}
+                      srcLightbox={slide1742}
+                    >
+                      {this.makeItemInfo(portraits, 't1742', this.props.currentLang)}
+                    </GalleryItem>
                   </div>
                 </div>
               </div>
@@ -352,4 +194,8 @@ class GalleryPage extends PureComponent {
   }
 }
 
-export default GalleryPage;
+const getData = (state) => {
+  return { currentLang: state.main.currentLang };
+};
+
+export default connect(getData)(GalleryPage);

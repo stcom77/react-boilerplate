@@ -13,7 +13,7 @@ class SlideElement extends PureComponent {
 
   processPositioningProps(nodes) {
     return Children.map(nodes, (node) => {
-      const props = {...node.props};
+      const props = { ...node.props };
       const style = {};
       props.left && (style.left = props.left) && (delete props.left);
       props.top && (style.top = props.top) && (delete props.top);
@@ -28,10 +28,12 @@ class SlideElement extends PureComponent {
   }
 
   render() {
-    const {style={}} = this.props;
-    return (<div style={style}>
-      {this.props.children}
-    </div>);
+    const { style = {} } = this.props;
+    return (
+      <div style={style}>
+        {this.props.children}
+      </div>
+    );
   }
 }
 

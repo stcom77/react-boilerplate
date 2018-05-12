@@ -5,7 +5,7 @@ import Bullet from './Bullet';
 class Paginator extends PureComponent {
   static propTypes = {
     doSlideChange: PropTypes.func,
-    slides: PropTypes.arrayOf(PropTypes.string)
+    slides: PropTypes.object
   };
 
   static defaultProps = {};
